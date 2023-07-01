@@ -34,13 +34,13 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
     int minute25toSecond = dateTime2.difference(dateTime1).inSeconds;
 
-    int diffSecond = minute25toSecond - _initTime.difference(_now).inSeconds;
+    int diffSecond = minute25toSecond - _now.difference(_initTime).inSeconds;
 
     // return minute25toSecond;
     return diffSecond;
   }
 
-  String _format_time(int diff) {
+  String _formatTime(int diff) {
     // 例外処理
     if (diff < 0 || diff > 25 * 60) {
       return "00:00";
@@ -55,7 +55,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
   @override
   Widget build(BuildContext context) {
-    String time = _format_time(_pastTime());
+    String time = _formatTime(_pastTime());
     final String displayTime = "残り" + time + "!";
     return Container(
       width: 350,
@@ -72,7 +72,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
             style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
           ),
           Text(
-            _pastTime().toString(),
+            time,
             style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
           ),
         ],
