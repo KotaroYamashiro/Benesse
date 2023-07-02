@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:benesse_online/status.dart';
-import 'database/users.dart';
-import 'database/study_records.dart';
+import 'package:benesse_online/screen/status.dart';
+import 'package:benesse_online/database/users.dart';
+import 'package:benesse_online/database/study_records.dart';
 
 const BreakTime = 1;
 const StudyTime = 1;

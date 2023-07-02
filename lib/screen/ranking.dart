@@ -1,12 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class Ranking extends StatelessWidget {
+  const Ranking({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -153,20 +149,29 @@ class MyApp extends StatelessWidget {
                       ),
                     ],
                   ),
-
                 ),
               ),
             ],
           ),
           bottomNavigationBar: BottomNavigationBar(
-            items: const [
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.emoji_events), label: "ランキング"),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.view_compact), label: "自習室"),
-              BottomNavigationBarItem(icon: Icon(Icons.people), label: "フレンド"),
-            ],
-          ),
+              currentIndex: 0,
+              items: const [
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.emoji_events), label: "ランキング"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.view_compact), label: "自習室"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.people), label: "フレンド"),
+              ],
+              onTap: (int index) {
+                if (index == 0) {
+                  Navigator.pushNamed(context, 'ranking');
+                } else if (index == 1) {
+                  Navigator.pushNamed(context, 'benesse');
+                } else {
+                  Navigator.pushNamed(context, 'friends');
+                }
+              }),
         ),
       ),
     );
@@ -220,7 +225,7 @@ class MyApp extends StatelessWidget {
       ],
       rows: List<DataRow>.generate(
         10,
-            (index) => DataRow(
+        (index) => DataRow(
           color: MaterialStateProperty.all(
             index % 2 == 0 ? Colors.white60 : Colors.white70,
           ),
@@ -241,10 +246,10 @@ class MyApp extends StatelessWidget {
                   color: index == 0
                       ? Color(0xFFFFD700)
                       : index == 1
-                      ? Color(0xFFC0C0C0)
-                      : index == 2
-                      ? Color(0xFF8C4841)
-                      : null,
+                          ? Color(0xFFC0C0C0)
+                          : index == 2
+                              ? Color(0xFF8C4841)
+                              : null,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -257,7 +262,6 @@ class MyApp extends StatelessWidget {
             ),
             DataCell(
               Text(
-
                 '${10 - index}時間${(30 - (rng.nextInt(10) + 1) * 3) % 60}分',
                 textAlign: TextAlign.center,
               ),

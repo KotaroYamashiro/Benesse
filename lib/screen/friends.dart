@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'database/benesse.dart' as benesse;
-import 'database/timer_2.dart';
+import 'package:benesse_online/screen/benesse.dart' as benesse;
+import 'package:benesse_online/screen/timer_2.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class Friends extends StatelessWidget {
+  const Friends({Key? key}) : super(key: key);
 
   // usersリストとstudyRecordsリストを同期させる関数
   List<bool> syncUserData(List<Map<String, dynamic>> users,
@@ -31,16 +31,9 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: Color(0xFFFEEAE6),
         appBar: AppBar(
           title: Text('友達一覧'),
-          backgroundColor: Colors.pinkAccent[200],
-          actions: <Widget>[
-            IconButton(
-              onPressed: () => debugPrint("Email tapped!"),
-              icon: Icon(Icons.email),
-            ),
-          ],
         ),
         body: SafeArea(
           child: ListView(
@@ -134,27 +127,36 @@ class MyApp extends StatelessWidget {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.lightGreen,
+          backgroundColor: Color(0xFFFEEAE6),
           child: Icon(Icons.call_missed),
           onPressed: () => debugPrint("Hello!"),
         ),
         bottomNavigationBar: BottomNavigationBar(
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.emoji_events),
-              label: "ランキング",
+            currentIndex: 2,
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.emoji_events),
+                label: "ランキング",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.view_compact),
+                label: "自習室",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.people),
+                label: "フレンド",
+              ),
+            ],
+            onTap: (int index) {
+              if (index == 0) {
+                Navigator.pushNamed(context, 'ranking');
+              } else if (index == 1) {
+                Navigator.pushNamed(context, 'benesse');
+              } else {
+                Navigator.pushNamed(context, 'friends');
+              }
+            } //debugPrint("Tapped item: $index"),
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.view_compact),
-              label: "自習室",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.people),
-              label: "フレンド",
-            ),
-          ],
-          onTap: (int index) => debugPrint("Tapped item: $index"),
-        ),
       ),
     );
   }

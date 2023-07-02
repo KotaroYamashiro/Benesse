@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:benesse_online/status.dart';
+import 'package:benesse_online/screen/status.dart';
 
 // minutes
-const BreakTime = 5;
+const BreakTime = 1;
 const StudyTime = 1;
+const AdditionalTime = 1;
 
 class PomodoroTimerState extends State<PomodoroTimer> {
   DateTime _initTime = DateTime.now();
@@ -83,16 +84,87 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     return displayTime;
   }
 
+  Color _getColor() {
+    if (_status == StatusType.offline) {
+      return Colors.grey.shade300;
+    } else if (_status == StatusType.breaktime) {
+      return Colors.blue;
+    } else if (_status == StatusType.studying) {
+      return Colors.yellow;
+    } else {
+      throw Exception("Invalid status type");
+    }
+  }
+
+  void _onPressRequest() {
+    // update _initTime -> _initTime + addditionalTime
+    setState(() {
+      _initTime = _initTime.add(const Duration(minutes: AdditionalTime));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        statusText(_status),
-        Text(
-          displayTime(),
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+    var pomodoro = Container(
+        color: _getColor(),
+        height: 250,
+        // width: 310,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            statusText(_status),
+            Center(
+              child: Text(
+                displayTime(),
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+              ),
+            ),
+          ],
+        ));
+    var timerWidget = Container(
+      color: Colors.pinkAccent,
+      height: 250,
+      width: double.infinity,
+      child: Center(
+        child: pomodoro,
+      ),
+    );
+    var request = Container(
+      height: 100,
+      child: ElevatedButton(
+          onPressed: _onPressRequest,
+          child: const Center(
+            child: Text(
+              "延長リクエスト",
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.w500,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          )),
+    );
+    var requestWidget = Container(
+      color: Colors.purpleAccent.shade100,
+      height: 50,
+      width: double.infinity,
+      child: const Center(
+        child: Text(
+          "延長リクエスト",
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.w500,
+          ),
+          textAlign: TextAlign.center,
         ),
+      ),
+    );
+
+    return Column(
+      children: <Widget>[
+        pomodoro,
+        request,
       ],
     );
   }

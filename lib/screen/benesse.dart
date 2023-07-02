@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
 import 'timer.dart';
-import 'database/rooms.dart';
-import 'database/study_records.dart';
-import 'database/users.dart';
+import 'package:benesse_online/database/users.dart';
+import 'package:benesse_online/database/study_records.dart';
 
-void main() {
-  runApp(MaterialApp(
-    home: MyApp(),
-  ));
-}
-
-class MyApp extends StatelessWidget {
-  MyApp({super.key});
+class Benesse extends StatelessWidget {
+  Benesse({super.key});
   var enter = <String>[];
   void _enter() {
     enter = <String>[];
@@ -31,8 +24,6 @@ class MyApp extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("オンライン自習室"),
-        centerTitle: true,
-        backgroundColor: Colors.blueAccent,
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -73,29 +64,30 @@ class MyApp extends StatelessWidget {
                             )))),
                   ],
                 ),
-                Container(
-                  color: Colors.pinkAccent,
-                  height: 250,
-                  width: double.infinity,
-                  child: Center(
-                    child: PomodoroTimer(),
-                  ),
-                ),
-                Container(
-                  color: Colors.purpleAccent.shade100,
-                  height: 50,
-                  width: double.infinity,
-                  child: const Center(
-                    child: Text(
-                      "延長リクエスト",
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
+                PomodoroTimer(),
+                // Container(
+                //   color: Colors.blue,
+                //   height: 250,
+                //   width: double.infinity,
+                //   child: Center(
+                //     child: PomodoroTimer(),
+                //   ),
+                // ),
+                // Container(
+                //   color: Colors.purpleAccent.shade100,
+                //   height: 50,
+                //   width: double.infinity,
+                //   child: const Center(
+                //     child: Text(
+                //       "延長リクエスト",
+                //       style: TextStyle(
+                //         fontSize: 25,
+                //         fontWeight: FontWeight.w500,
+                //       ),
+                //       textAlign: TextAlign.center,
+                //     ),
+                //   ),
+                // ),
                 Container(
                   width: double.infinity,
                   color: Colors.grey[200],
@@ -155,13 +147,25 @@ class MyApp extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.emoji_events), label: "ランキング"),
-          BottomNavigationBarItem(icon: Icon(Icons.view_compact), label: "自習室"),
-          BottomNavigationBarItem(icon: Icon(Icons.people), label: "フレンド"),
-        ],
-      ),
+          currentIndex: 1,
+          items: const [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.emoji_events), label: "ランキング"),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.view_compact),
+              label: "自習室",
+            ),
+            BottomNavigationBarItem(icon: Icon(Icons.people), label: "フレンド"),
+          ],
+          onTap: (int index) {
+            if (index == 0) {
+              Navigator.pushNamed(context, 'ranking');
+            } else if (index == 1) {
+              Navigator.pushNamed(context, 'benesse');
+            } else {
+              Navigator.pushNamed(context, 'friends');
+            }
+          }),
     );
   }
 }

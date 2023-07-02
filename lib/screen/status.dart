@@ -18,15 +18,15 @@ StatusType flipStatus(StatusType status) {
   }
 }
 
-Text statusText(StatusType status) {
+Center statusText(StatusType status) {
   // maybe use icon?
   switch (status) {
     case StatusType.studying:
-      return Text('Studying', style: defaultstyle);
+      return Center(child: Text('Studying', style: defaultstyle));
     case StatusType.breaktime:
-      return Text('Breaktime', style: defaultstyle);
+      return Center(child: Text('Breaktime', style: defaultstyle));
     case StatusType.offline:
-      return Text('Offline', style: defaultstyle);
+      return Center(child: Text('Offline', style: defaultstyle));
     default:
       // raise exception
       throw Exception('Invalid status type');
