@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:benesse_online/statas.dart';
+import 'package:benesse_online/status.dart';
 
 // minutes
 const BreakTime = 5;
-const StudyTime = 2;
+const StudyTime = 1;
 
 class PomodoroTimerState extends State<PomodoroTimer> {
   DateTime _initTime = DateTime.now();
