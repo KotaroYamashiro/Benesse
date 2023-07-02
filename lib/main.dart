@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       appBar: AppBar(
         title: const Text("オンライン自習室"),
         centerTitle: true,
-        backgroundColor: Colors.blueGrey.shade500,
+        backgroundColor: Colors.blueAccent,
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -41,33 +41,36 @@ class MyApp extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    Container(
-                        color: Colors.orangeAccent,
-                        height: 80,
-                        width: 150,
-                        child: const Center(
-                            child: Text(
-                          "部屋1",
-                          style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          textAlign: TextAlign.center,
-                        ))),
-                    Container(
-                        color: Colors.orangeAccent.shade100,
-                        height: 80,
-                        width: 150,
-                        child: const Center(
-                            child: Text(
-                          "部屋2",
-                          style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          textAlign: TextAlign.center,
-                        )))
+                    Expanded(
+                        child: Container(
+                            color: Colors.orangeAccent,
+                            height: 80,
+                            width: 150,
+                            child: const Center(
+                                child: Text(
+                              "部屋1",
+                              style: TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              textAlign: TextAlign.center,
+                            )))),
+                    Expanded(
+                        child: Container(
+                            color: Colors.orangeAccent.shade100,
+                            height: 80,
+                            width: 150,
+                            child: const Center(
+                                child: Text(
+                              "部屋2",
+                              style: TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              textAlign: TextAlign.center,
+                            )))),
                   ],
                 ),
                 Container(
@@ -94,25 +97,24 @@ class MyApp extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  width: 150,
-                  height: 80,
+                  width: double.infinity,
                   color: Colors.grey[200],
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       for (final enter in enter)
-                        Container(
-                            height: 50,
-                            width: 120,
-                            color: Colors.lightGreen,
-                            child: Text(
-                              enter,
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                              ),
-                              textAlign: TextAlign.center,
-                            )),
+                        Expanded(
+                            child: Container(
+                                height: 100,
+                                color: Colors.lightGreen,
+                                child: Text(
+                                  enter,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ))),
                       // Container(
                       //     color: Colors.lightGreen,
                       //     child: Text(
