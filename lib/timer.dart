@@ -85,23 +85,15 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 350,
-      height: 200,
-      decoration: BoxDecoration(
-        color: Colors.pinkAccent,
-        borderRadius: BorderRadius.circular(14.5),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          statusText(_status),
-          Text(
-            displayTime(),
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
-          ),
-        ],
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        statusText(_status),
+        Text(
+          displayTime(),
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+        ),
+      ],
     );
   }
 }

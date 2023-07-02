@@ -1,132 +1,156 @@
 import 'package:flutter/material.dart';
+import 'timer.dart';
+import 'database/rooms.dart';
+import 'database/study_records.dart';
+import 'database/users.dart';
 
 void main() {
-  runApp(const MaterialApp(
+  runApp(MaterialApp(
     home: MyApp(),
   ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+  var enter = <String>[];
+  void _enter() {
+    enter = <String>[];
+    for (int i = 1; i < users.length; i++) {
+      var latest_record_id = users[i]["latest_record_id"];
+
+      if (studyRecords[latest_record_id]["quit_time"] == null) {
+        enter.add(users[i]["name"]);
+      }
+    }
+  }
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    _enter();
     return Scaffold(
       appBar: AppBar(
         title: const Text("オンライン自習室"),
         centerTitle: true,
         backgroundColor: Colors.blueGrey.shade500,
       ),
-      body: Stack(
-        alignment: AlignmentDirectional.topCenter,
-        children: [
-          Positioned(
-              top: 0,
-              left: 0,
-              child: Container(
-                color: Colors.pinkAccent.shade100,
-                height: 250,
-                width: 310,
-                child: const Center(
-                  child: Text(
-                    "休憩中",
+      body: Center(
+        child: SingleChildScrollView(
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Container(
+                        color: Colors.orangeAccent,
+                        height: 80,
+                        width: 150,
+                        child: const Center(
+                            child: Text(
+                          "部屋1",
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          textAlign: TextAlign.center,
+                        ))),
+                    Container(
+                        color: Colors.orangeAccent.shade100,
+                        height: 80,
+                        width: 150,
+                        child: const Center(
+                            child: Text(
+                          "部屋2",
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          textAlign: TextAlign.center,
+                        )))
+                  ],
+                ),
+                Container(
+                  color: Colors.pinkAccent,
+                  height: 250,
+                  width: double.infinity,
+                  child: Center(
+                    child: PomodoroTimer(),
+                  ),
+                ),
+                Container(
+                  color: Colors.purpleAccent.shade100,
+                  height: 50,
+                  width: double.infinity,
+                  child: const Center(
+                    child: Text(
+                      "延長リクエスト",
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 150,
+                  height: 80,
+                  color: Colors.grey[200],
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      for (final enter in enter)
+                        Container(
+                            height: 50,
+                            width: 120,
+                            color: Colors.lightGreen,
+                            child: Text(
+                              enter,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              textAlign: TextAlign.center,
+                            )),
+                      // Container(
+                      //     color: Colors.lightGreen,
+                      //     child: Text(
+                      //       "友達A",
+                      //       style: TextStyle(
+                      //         fontSize: 25,
+                      //         fontWeight: FontWeight.w500,
+                      //       ),
+                      //       textAlign: TextAlign.center,
+                      //     )),
+                      // Container(
+                      //     color: Colors.lightGreen,
+                      //     child: Text(
+                      //       "友達B",
+                      //       style: TextStyle(
+                      //         fontSize: 25,
+                      //         fontWeight: FontWeight.w500,
+                      //       ),
+                      //       textAlign: TextAlign.center,
+                      //     )),
+                    ],
+                  ),
+                ),
+                Container(
+                  color: Colors.lightGreen.shade100,
+                  height: 300,
+                  width: double.infinity,
+                  child: const Text(
+                    "チャット欄...",
                     style: TextStyle(
-                      fontSize: 25,
+                      fontSize: 15,
                       fontWeight: FontWeight.w500,
                     ),
-                    textAlign: TextAlign.center,
+                    textAlign: TextAlign.left,
                   ),
                 ),
-              )),
-          Positioned(
-              top: 260,
-              left: 0,
-              child: Container(
-                color: Colors.blueAccent.shade100,
-                height: 50,
-                width: 310,
-                child: const Center(
-                  child: Text(
-                    "延長リクエスト",
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              )),
-          Positioned(
-              top: 320,
-              left: 0,
-              child: Container(
-                color: Colors.blueAccent.shade100,
-                height: 80,
-                width: 150,
-                child: const Center(
-                  child: Text(
-                    "自分",
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              )),
-          Positioned(
-              top: 320,
-              left: 160,
-              child: Container(
-                color: Colors.blueAccent.shade100,
-                height: 80,
-                width: 150,
-                child: const Center(
-                  child: Text(
-                    "友達A",
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              )),
-          Positioned(
-              top: 0,
-              left: 315,
-              child: Container(
-                color: Colors.orangeAccent.shade400,
-                height: 600,
-                width: 100,
-                child: const Center(
-                  child: Text(
-                    "部屋",
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              )),
-          Align(
-              alignment: Alignment.bottomLeft,
-              child: Container(
-                color: Colors.lightGreen.shade100,
-                height: 150,
-                width: 310,
-                child: const Text(
-                  "チャット欄...",
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-              ))
-        ],
+              ]),
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
@@ -139,45 +163,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-//   Container _online() {
-//     return Container(
-//       width: 350,
-//       height: 200,
-//       decoration: BoxDecoration(
-//           color: Colors.pinkAccent, borderRadius: BorderRadius.circular(14.5)),
-//       child: const Column(
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         children: <Widget>[
-//           Text(
-//             "休憩中",
-//             style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
-//           ),
-//           Text(
-//             "残り○○分",
-//             style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-//
-//   Container _request() {
-//     return Container(
-//       width: 350,
-//       height: 100,
-//       decoration: BoxDecoration(
-//           color: Colors.blue.shade300,
-//           borderRadius: BorderRadius.circular(14.5)),
-//       child: const Column(
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         children: <Widget>[
-//           Text(
-//             "時間延長する",
-//             style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
