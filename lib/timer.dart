@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:benesse_online/status.dart';
+
+// minutes
+const BreakTime = 5;
+const StudyTime = 1;
 
 class PomodoroTimerState extends State<PomodoroTimer> {
   DateTime _initTime = DateTime.now();
   DateTime _now = DateTime.now();
+  StatusType _status = StatusType.studying;
 
+  @override
   void initState() {
     Timer.periodic(
-      Duration(seconds: 1),
+      const Duration(seconds: 1),
       _setTimer,
     );
     super.initState();
-    _initTime = DateTime.now();
   }
 
   void _resetTimer() {
@@ -29,20 +35,38 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   }
 
   int _pastTime() {
-    var dateTime1 = DateTime(2021, 12, 12, 12, 0, 0);
-    var dateTime2 = DateTime(2021, 12, 12, 12, 25, 0);
+    DateTime baseTime;
+    if (_status == StatusType.offline) {
+      return 0;
+    } else if (_status == StatusType.breaktime) {
+      baseTime = _initTime.add(const Duration(minutes: BreakTime));
+    } else if (_status == StatusType.studying) {
+      baseTime = _initTime.add(const Duration(minutes: StudyTime));
+    } else {
+      throw Exception("Invalid status type");
+    }
 
-    int minute25toSecond = dateTime2.difference(dateTime1).inSeconds;
-
-    int diffSecond = minute25toSecond - _initTime.difference(_now).inSeconds;
+    int diffSecond = baseTime.difference(_now).inSeconds;
 
     // return minute25toSecond;
     return diffSecond;
   }
 
-  String _format_time(int diff) {
+  void _updateStatus() {
+    setState(() {
+      _status = flipStatus(_status);
+    });
+  }
+
+  String _formatTime(int diff) {
     // 例外処理
-    if (diff < 0 || diff > 25 * 60) {
+    if (diff > 25 * 60) {
+      throw Exception("diff is over 25 minutes");
+    }
+
+    if (diff <= 0) {
+      _resetTimer();
+      _updateStatus();
       return "00:00";
     }
 
@@ -53,10 +77,14 @@ class PomodoroTimerState extends State<PomodoroTimer> {
         second.toString().padLeft(2, "0");
   }
 
+  String displayTime() {
+    String time = _formatTime(_pastTime());
+    String displayTime = "remaining time: $time!";
+    return displayTime;
+  }
+
   @override
   Widget build(BuildContext context) {
-    String time = _format_time(_pastTime());
-    final String displayTime = "残り" + time + "!";
     return Container(
       width: 350,
       height: 200,
@@ -67,12 +95,9 @@ class PomodoroTimerState extends State<PomodoroTimer> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
+          statusText(_status),
           Text(
-            "勉強中！",
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
-          ),
-          Text(
-            _pastTime().toString(),
+            displayTime(),
             style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
           ),
         ],
